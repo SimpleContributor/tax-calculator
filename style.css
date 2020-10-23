@@ -1,0 +1,101 @@
+
+/* Dropdown Menu Styling */
+/* The container must be positioned relative: */
+.dropdown-container {
+  
+    position: relative;
+    font-family: Arial;
+  }
+  
+  .dropdown-container select {
+    display: none; /*hide original SELECT element: */
+  }
+  
+  
+  
+  /* Style the arrow inside the select element: */
+  .select-selected:after {
+    position: absolute;
+    content: "";
+    top: 14px;
+    right: 10px;
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-color: #000 transparent transparent transparent;
+    border-radius: 3px;
+  }
+  
+  /* Point the arrow upwards when the select box is open (active): */
+  .select-selected.select-arrow-active:after {
+    border-color: transparent transparent #000 transparent;
+    top: 7px;
+  }
+  
+  /* style the items (options), including the selected item: */
+  .select-items div,.select-selected {
+    color: #000;
+    padding: 8px 16px;
+    border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+    cursor: pointer;
+  }
+  
+  
+  
+  /* Hide the items when the select box is closed: */
+  .select-hide {
+    display: none;
+  }
+  
+  .select-items div:hover, .same-as-selected {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  
+  .select-selected {
+    background-color: wheat;
+    border: 2px solid black;
+    border-radius: 5px;
+  }
+  
+  .hide-border-bottom{
+    border-bottom: none;
+    border-radius: 5px 5px 0px 0px;
+  }
+  
+  /* Style items (options): */
+  .select-items {
+    position: absolute;
+    background-color: wheat;
+    border: 2px solid black;
+    border-top: none;
+    border-radius: 0px 0px 5px 5px;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    
+    animation-name: growDown;
+    animation-duration: 150ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+    transform-origin: top-center;
+  }
+  
+  
+  
+  
+  
+  
+  @keyframes growDown {
+    0% {
+      transform: scaleY(0)
+    }
+    80% {
+      transform: scaleY(1.1)
+    }
+    100% {
+      transform: scaleY(1)
+    }
+  }
+  

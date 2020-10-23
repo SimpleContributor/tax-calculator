@@ -18,10 +18,39 @@
         <div>
             <p>Select filing status then enter your total income to see how much to pay in taxes.</p>
             <input type="number" placeholder="Total Income">
-            
+            <div class="dropdown-container">
+                <select class="dropdown" id="dropdown">
+                  <option value="0">Filing Status:</option>
+                  <option value="1">Single</option>
+                  <option value="2">Married File Jointly</option>
+                  <option value="3">Married File Seperate</option>
+                  <option value="4">Head of Household</option>
+                </select>
+            </div>
+
+            <div class="dropdown-container">
+                <select class="dropdown" id="dropdown">
+                  <option value="dependents">Dependents:</option>
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                </select>
+            </div>
+
             <button type="submit" onclick="calcTaxes()">Calculate</button>
         </div>
         
+        <div>
+            <table>
+                <td>yo</td>
+                <td><tr>yo</tr></td>
+            </table>
+        </div>
         
         <script src="scripts.js"></script>
     </body>
