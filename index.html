@@ -17,19 +17,19 @@
         
         <div>
             <p>Select filing status then enter your total income to see how much to pay in taxes.</p>
-            <input type="number" placeholder="Total Income">
+            $<input id="income" type="number" placeholder="Total Income" step="0.01" min="0.01">
             <div class="dropdown-container">
-                <select class="dropdown" id="dropdown">
-                  <option value="0">Filing Status:</option>
-                  <option value="1">Single</option>
-                  <option value="2">Married File Jointly</option>
-                  <option value="3">Married File Seperate</option>
-                  <option value="4">Head of Household</option>
+                <select class="dropdown" id="file-status">
+                  <option value="status">Filing Status:</option>
+                  <option value="single">Single</option>
+                  <option value="married(j)">Married File Jointly</option>
+                  <option value="married(s)">Married File Seperate</option>
+                  <option value="head">Head of Household</option>
                 </select>
             </div>
 
             <div class="dropdown-container">
-                <select class="dropdown" id="dropdown">
+                <select class="dropdown" id="dependent-count">
                   <option value="dependents">Dependents:</option>
                   <option value="0">0</option>
                   <option value="1">1</option>
@@ -46,9 +46,48 @@
         </div>
         
         <div>
-            <table>
-                <td>yo</td>
-                <td><tr>yo</tr></td>
+            <table style="width: 100%">
+                <tr>
+                    <th>Tax Type</th>
+                    <th>Marginal Tax Rate</th>
+                    <th>Effective Rate</th>
+                    <th>Total</th>
+                </tr>
+
+                <tr>
+                    <td>Federal</td>
+                    <td id="fed-marg-rate">10%</td>
+                    <td id="fed-effec-rate">0.00%</td>
+                    <td id="fed-total">$0.00</td>
+                </tr>
+
+                <tr>
+                    <td>FICA</td>
+                    <td>7.65%</td>
+                    <td>7.65%</td>
+                    <td id="fica-total">$0.00</td>
+                </tr>
+
+                <tr>
+                    <td>State</td>
+                    <td id="state-marg-rate">1.7%</td>
+                    <td id="state-effec-rate">0.00%</td>
+                    <td id="state-total">$0.00</td>
+                </tr>
+
+                <tr>
+                    <td>Total</td>
+                    <td id="total-marg-rate">0.00%</td>
+                    <td id="total-effec-rate">0.00%</td>
+                    <td id="total-total">$0.00</td>
+                </tr>
+
+                <tr>
+                    <td>Income After Tax</td>
+                    <td></td>
+                    <td></td>
+                    <td id="income-after-tax">$0.00</td>
+                </tr>
             </table>
         </div>
         

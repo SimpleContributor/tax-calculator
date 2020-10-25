@@ -1,6 +1,41 @@
+////////////////////////////////////////
+//////// CALCULATE TAXES SCRIPT ////////
+////////////////////////////////////////
 function calcTaxes() {
+    let fedDeduc;
+    let stateDeduc;
+    let income = document.getElementById('income').value;
+    console.log('Whats up player');
+    const ficaRate = 0.0765;
+    const fica = income * ficaRate;
+
     
+    console.log(income);
+    let fedTotal = document.getElementById('fed-total');
+    let ficaTotal = document.getElementById('fica-total');
+
+    let fileStatus = document.getElementsByClassName('select-selected')[0].innerHTML;
+    let dependents = document.getElementsByClassName('select-selected')[1].innerHTML;
+
+    let stateDepDeduc = (dependents - 1) * 2000;
+    console.log(fileStatus);
+    console.log(dependents);
+    if(fileStatus === 'Single') {
+        fedDeduc = income - 12200;
+        fedTotal.innerHTML = `$${(income - 12000) * 0.1}`;
+        ficaTotal.innerHTML = `$${income * ficaRate}`;
+
+        if(income > 25000) {
+            console.log('Greater than 25k.')
+        } else {
+            console.log('Less than 25k.')
+        }
+    }
+
+    ficaTotal.innerHTML = `$${fica}`;
 }
+
+
 
 ////////////////////////////////////////
 ///////// DROPDOWN MENU SCRIPT /////////
@@ -9,7 +44,6 @@ let dropdownContainer = document.getElementsByClassName("dropdown-container");
 
 for (let i = 0; i < dropdownContainer.length; i++) {
     let selectElement = dropdownContainer[i].getElementsByTagName("select")[0];
-    
     let selectedItemDiv = document.createElement("DIV");
     selectedItemDiv.setAttribute("class", "select-selected");
     selectedItemDiv.innerHTML = selectElement.options[selectElement.selectedIndex].innerHTML;

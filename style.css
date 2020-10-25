@@ -1,8 +1,16 @@
+body {
+  margin: 0;
+}
+
+table {
+  height: 300px;
+  text-align: left;
+}
 
 /* Dropdown Menu Styling */
 /* The container must be positioned relative: */
 .dropdown-container {
-  
+    margin: 24px;
     position: relative;
     font-family: Arial;
   }
