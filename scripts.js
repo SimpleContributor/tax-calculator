@@ -2,16 +2,23 @@
 //////// CALCULATE TAXES SCRIPT ////////
 ////////////////////////////////////////
 function calcTaxes() {
-    let fedDeduc;
-    let stateDeduc;
+    const ficaRates = [0.0765, 0.0145, 0.0235];
+    let ficaRate;
+    let ficaMarginalRate = document.getElementById('fica-marg-rate');
+    let ficaEffectiveRate = document.getElementById('fica-effec-rate');
+    
+    
+    let fedDeduc, stateDeduc, taxable, margRate, fedTax, fedEffecRate;
     let income = document.getElementById('income').value;
     console.log('Whats up player');
-    const ficaRate = 0.0765;
     const fica = income * ficaRate;
 
     
     console.log(income);
     let fedTotal = document.getElementById('fed-total');
+    let fedMarginalRate = document.getElementById('fed-marg-rate');
+    let fedEffectiveRate = document.getElementById('fed-effec-rate');
+
     let ficaTotal = document.getElementById('fica-total');
 
     let fileStatus = document.getElementsByClassName('select-selected')[0].innerHTML;
@@ -22,17 +29,41 @@ function calcTaxes() {
     console.log(dependents);
     if(fileStatus === 'Single') {
         fedDeduc = income - 12200;
+        stateDeduc = fedDeduc + ((dependents - 1) * 4000);
         fedTotal.innerHTML = `$${(income - 12000) * 0.1}`;
-        ficaTotal.innerHTML = `$${income * ficaRate}`;
 
-        if(income > 25000) {
-            console.log('Greater than 25k.')
-        } else {
-            console.log('Less than 25k.')
+        if(fedDeduc > 518401) {
+            margRate = 0.37;
+            taxable = fedDeduc - 518401;
+            fedTax = taxable * margRate + 156235;
+            fedEffecRate = (fedTax / income * 100).toFixed(2);
+            fedTotal.innerHTML = `$${fedTax}`;
+            fedMarginalRate.innerHTML = `${margRate * 100}%`;
+            fedEffectiveRate.innerHTML = `${fedEffecRate}%`;
+        } else if(fedDeduc > 207351) {
+            margRate = 0.35;
+            taxable = fedDeduc - 207351;
+            fedTax = taxable * margRate + 47367.50;
+            fedEffecRate = (fedTax / income * 100).toFixed(2);
+            fedTotal.innerHTML = `$${fedTax}`;
+            fedMarginalRate.innerHTML = `${margRate * 100}%`;
+            fedEffectiveRate.innerHTML = `${fedEffecRate}%`;
         }
-    }
 
-    ficaTotal.innerHTML = `$${fica}`;
+
+        if(income > 200000) {
+            ficaRate = 0.0235;
+        } else if(income > 137701) {
+            ficaRate = 0.0145;
+        } else {
+            ficaRate = 0.0765;
+        }
+
+        let ficaMargAndEffec = (ficaRate * 100).toFixed(2);
+        ficaMarginalRate.innerHTML = `${ficaMargAndEffec}%`;
+        ficaTotal.innerHTML = `$${income * ficaRate}`;
+        ficaEffectiveRate.innerHTML = `${ficaMargAndEffec}%`
+    }
 }
 
 
