@@ -4,7 +4,9 @@
 function calcTaxes() {
     let fedDeduc, stateDeduc, taxable, margRate, effecRate, fedTax, ficaRate, stateTax;
     let totalArr = [];
-    let SingleFedBracket = [];
+    let singleFedBracket = [518401, 207351, 163301, 85526, 40126, 9876, 0];
+    let singleFedBracketMarg = [0.37, 0.35, 0.32, 0.24, 0.22, 0.12, 0.10];
+    let singleFedBracketBaseTax = [156235, 47367.50, 33271.50, 14605.50, 4617.50, 987.50, 0];
 
     let fedTotal = document.getElementById('fed-total');
     let fedMarginalRate = document.getElementById('fed-marg-rate');
@@ -29,48 +31,21 @@ function calcTaxes() {
 
     if (fileStatus === 'Single') {
         fedDeduc = income - 12200;
-
         if (dependents > 1) {
             stateDeduc = fedDeduc - ((dependents - 1) * 4000);
         } else {
             stateDeduc = fedDeduc;
         }
 
-        if (fedDeduc > 518401) {
-            margRate = 0.37;
-            taxable = fedDeduc - 518401;
-            fedTax = taxable * margRate + 156235;
-            fedTaxCalc(fedTax, margRate);
-        } else if (fedDeduc > 207351) {
-            margRate = 0.35;
-            taxable = fedDeduc - 207351;
-            fedTax = taxable * margRate + 47367.50;
-            fedTaxCalc(fedTax, margRate);
-        } else if (fedDeduc > 163301) {
-            margRate = 0.32;
-            taxable = fedDeduc - 163301;
-            fedTax = taxable * margRate + 33271.50;
-            fedTaxCalc(fedTax, margRate);
-        } else if (fedDeduc > 85526) {
-            margRate = 0.24;
-            taxable = fedDeduc - 85526;
-            fedTax = taxable * margRate + 14605.50;
-            fedTaxCalc(fedTax, margRate);
-        } else if (fedDeduc > 40126) {
-            margRate = 0.22;
-            taxable = fedDeduc - 40126;
-            fedTax = taxable * margRate + 4617.50;
-            fedTaxCalc(fedTax, margRate);
-        } else if (fedDeduc > 9876) {
-            margRate = 0.12;
-            taxable = fedDeduc - 9876;
-            fedTax = taxable * margRate + 987.50;
-            fedTaxCalc(fedTax, margRate);
-        } else {
-            margRate = 0.10;
-            fedTax = fedDeduc * margRate;
-            fedTaxCalc(fedTax, margRate);
-        };
+        for (let i = 0; i < singleFedBracket.length; i++) {
+            if (fedDeduc > singleFedBracket[i]) {
+                margRate = singleFedBracketMarg[i];
+                taxable = fedDeduc - singleFedBracket[i];
+                fedTax = taxable * margRate + singleFedBracketBaseTax[i];
+                fedTaxCalc(fedTax, margRate);
+                break;
+            }
+        }
 
         ficaTaxCalc();
         stateTaxCalc(stateDeduc);
