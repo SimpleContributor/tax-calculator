@@ -2,43 +2,49 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>NM Income Tax Calculator</title>
+        <title>NM Income Tax Calculator 2020</title>
 
         <meta name="description" content="Calculate income taxes in the state of New Mexico">
-        <meta name="author" content="SitePoint">
+        <meta name="author" content="Caleb Coe">
 
         <link rel="stylesheet" href="style.css">
     </head>
 
     <body>
         <div>
-            <h1>NM Income Tax Calculator</h1>
+            <h1>NM Income Tax Calculator 2020</h1>
         </div>
         
         <div>
-            <p>Select filing status then enter your total income to see how much to pay in taxes.</p>
-            $<input id="income" type="number" placeholder="Total Income" step="0.01" min="0.01">
+            <p class="how-to">
+                Enter your total income, filing status and number of dependents. Click calculate to see 
+                how much to pay in taxes.
+            </p>
+            <div class="input-container">
+                <p>$</p>
+                <input id="income" type="number" placeholder="Total Income" step="0.01" min="0.01">
+            </div>
             <div class="dropdown-container">
                 <select class="dropdown" id="file-status">
-                  <option value="status">Filing Status:</option>
-                  <option value="single">Single</option>
-                  <option value="married(j)">Married File Jointly</option>
-                  <option value="married(s)">Married File Seperate</option>
-                  <option value="head">Head of Household</option>
+                    <option value="status">Filing Status:</option>
+                    <option value="single">Single</option>
+                    <option value="married(j)">Married File Jointly</option>
+                    <option value="married(s)">Married File Seperate</option>
+                    <option value="head">Head of Household</option>
                 </select>
             </div>
 
             <div class="dropdown-container">
                 <select class="dropdown" id="dependent-count">
-                  <option value="dependents">Dependents:</option>
-                  <option value="0">0</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
+                    <option value="dependents">Dependents:</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
                 </select>
             </div>
 
@@ -50,7 +56,7 @@
                 <tr>
                     <th>Tax Type</th>
                     <th>Marginal Tax Rate</th>
-                    <th>Effective Rate</th>
+                    <th>Effective Tax Rate</th>
                     <th>Total</th>
                 </tr>
 
@@ -58,35 +64,35 @@
                     <td>Federal</td>
                     <td id="fed-marg-rate">10%</td>
                     <td id="fed-effec-rate">0.00%</td>
-                    <td id="fed-total">$0.00</td>
+                    <td class="total" id="fed-total">$0.00</td>
                 </tr>
 
                 <tr>
                     <td>FICA</td>
                     <td id="fica-marg-rate">7.65%</td>
                     <td id="fica-effec-rate">0.00%</td>
-                    <td id="fica-total">$0.00</td>
+                    <td class="total" id="fica-total">$0.00</td>
                 </tr>
 
                 <tr>
                     <td>State</td>
                     <td id="state-marg-rate">1.7%</td>
                     <td id="state-effec-rate">0.00%</td>
-                    <td id="state-total">$0.00</td>
+                    <td class="total" id="state-total">$0.00</td>
                 </tr>
 
                 <tr>
                     <td>Total</td>
                     <td></td>
                     <td id="total-effec-rate">0.00%</td>
-                    <td id="total-total">$0.00</td>
+                    <td class="total" id="total-total">$0.00</td>
                 </tr>
 
                 <tr>
                     <td>Income After Tax</td>
                     <td></td>
                     <td></td>
-                    <td id="income-after-tax">$0.00</td>
+                    <td class="total" id="income-after-tax">$0.00</td>
                 </tr>
             </table>
         </div>

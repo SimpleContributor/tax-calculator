@@ -4,10 +4,7 @@
 function calcTaxes() {
     let fedDeduc, stateDeduc, taxable, margRate, effecRate, fedTax, ficaRate, stateTax;
     let totalArr = [];
-    let singleFedBracket = [518401, 207351, 163301, 85526, 40126, 9876, 0];
-    let singleFedBracketMarg = [0.37, 0.35, 0.32, 0.24, 0.22, 0.12, 0.10];
-    let singleFedBracketBaseTax = [156235, 47367.50, 33271.50, 14605.50, 4617.50, 987.50, 0];
-
+    
     let fedTotal = document.getElementById('fed-total');
     let fedMarginalRate = document.getElementById('fed-marg-rate');
     let fedEffectiveRate = document.getElementById('fed-effec-rate');
@@ -29,68 +26,110 @@ function calcTaxes() {
     let fileStatus = document.getElementsByClassName('select-selected')[0].innerHTML;
     let dependents = (document.getElementsByClassName('select-selected')[1].innerHTML);
 
+    let fedBracket, fedBracketBaseTax;
+    let fedBracketMarg = [0.37, 0.35, 0.32, 0.24, 0.22, 0.12, 0.10];
+    let stateBracketMarg = [0.049, 0.047, 0.032, 0.017];
+
+
     if (fileStatus === 'Single') {
-        fedDeduc = income - 12200;
+        fedDeduc = income - 12400;
+        fedBracket = [518401, 207351, 163301, 85526, 40126, 9876, 0];
+        fedBracketBaseTax = [156235, 47367.50, 33271.50, 14605.50, 4617.50, 987.50, 0];
+
+        fedTaxCalc(fedDeduc, fedBracket, fedBracketBaseTax);
+    };
+
+    if (fileStatus === 'Married File Seperate') {
+        fedDeduc = income - 12400;
+        fedBracket = [311026, 207351, 163301, 85526, 40126, 9876, 0];
+        fedBracketBaseTax = [83653.75, 47367.50, 33271.50, 14605.50, 4617.50, 987.50, 0];
+
+        fedTaxCalc(fedDeduc, fedBracket, fedBracketBaseTax);
+    }
+
+    if (fileStatus === 'Married File Jointly') {
+        fedDeduc = income - 24800;
+        fedBracket = [622051, 414701, 326601, 171050, 80251, 19751, 0];
+        fedBracketBaseTax = [167307.50, 94735, 66543, 29211, 9235, 1975, 0];
+
+        fedTaxCalc(fedDeduc, fedBracket, fedBracketBaseTax);
+    }
+
+    if (fileStatus === 'Head of Household') {
+        fedDeduc = income - 18650;
+        fedBracket = [518401, 207351, 163301, 85501, 53701, 14101, 0];
+        fedBracketBaseTax = [154793.50, 45926, 31830, 13158, 6162, 1410, 0];
+
+        fedTaxCalc(fedDeduc, fedBracket, fedBracketBaseTax);
+    }
+
+    ficaTaxCalc();
+    totalTaxes();
+
+    function fedTaxCalc(fedDeduc, fedBracket, fedBracketBaseTax) {
+        for (let i = 0; i < fedBracket.length; i++) {
+            if (fedDeduc > fedBracket[i]) {
+                margRate = fedBracketMarg[i];
+                taxable = fedDeduc - fedBracket[i];
+                fedTax = taxable * margRate + fedBracketBaseTax[i];
+                calc(fedTax, margRate);
+                break;
+            }
+
+            function calc(fedTax, margRate) {
+                effecRate = (fedTax / income * 100).toFixed(2);
+                fedMarginalRate.innerHTML = `${margRate * 100}%`;
+                fedEffectiveRate.innerHTML = `${effecRate}%`;
+                fedTotal.innerHTML = `$${fedTax.toFixed(2)}`;
+                totalArr.push(fedTax);
+            };
+        }
+
         if (dependents > 1) {
             stateDeduc = fedDeduc - ((dependents - 1) * 4000);
         } else {
             stateDeduc = fedDeduc;
         }
 
-        for (let i = 0; i < singleFedBracket.length; i++) {
-            if (fedDeduc > singleFedBracket[i]) {
-                margRate = singleFedBracketMarg[i];
-                taxable = fedDeduc - singleFedBracket[i];
-                fedTax = taxable * margRate + singleFedBracketBaseTax[i];
-                fedTaxCalc(fedTax, margRate);
-                break;
-            }
-        }
-
-        ficaTaxCalc();
         stateTaxCalc(stateDeduc);
-        totalTaxes();
-    };
-
-
-
-
-    function fedTaxCalc(fedTax, margRate) {
-        effecRate = (fedTax / income * 100).toFixed(2);
-        fedMarginalRate.innerHTML = `${margRate * 100}%`;
-        fedEffectiveRate.innerHTML = `${effecRate}%`;
-        fedTotal.innerHTML = `$${fedTax.toFixed(2)}`;
-        totalArr.push(fedTax);
-    };
+    }
+    
 
     function stateTaxCalc(stateDeduc) {
-        if (stateDeduc > 16001) {
-            margRate = 0.049;
-            taxable = stateDeduc - 16001;
-            stateTax = taxable * margRate + 504.50;
-            calc(stateTax, margRate);
-        } else if (stateDeduc > 11001) {
-            margRate = 0.047;
-            taxable = stateDeduc - 11001;
-            stateTax = taxable * margRate + 269.50;
-            calc(stateTax, margRate);
-        } else if (stateDeduc > 5501) {
-            margRate = 0.032;
-            taxable = stateDeduc - 5501;
-            stateTax = taxable * margRate + 93.50;
-            calc(stateTax, margRate);
-        } else {
-            margRate = 0.017;
-            taxable = stateDeduc;
-            stateTax = taxable * margRate;
-            calc(stateTax, margRate);
+        if (stateDeduc <= 0) {
+            stateDeduc = 0;
+        }
+
+        let stateBracket = [];
+        
+        let stateBracketBaseTax = [];
+
+        if (fileStatus === 'Single') {
+            stateBracket = [16001, 11001, 5501, 0];
+            stateBracketBaseTax = [504.50, 269.50, 93.50, 0];
+        }
+
+        if (fileStatus === 'Married File Seperate') {
+            stateBracket = [12001, 8001, 4001, 0];
+            stateBracketBaseTax = [384, 196, 68, 0];
+        }
+
+        if (fileStatus === 'Married File Jointly' || 'Head of Household') {
+            stateBracket = [24001, 16001, 8001, 0];
+            stateBracketBaseTax = [768, 392, 136, 0];
+        }
+
+        for (let i = 0; i < stateBracket.length; i++) {
+            if (stateDeduc >= stateBracket[i]) {
+                margRate = stateBracketMarg[i];
+                taxable = stateDeduc - stateBracket[i];
+                stateTax = taxable * margRate + stateBracketBaseTax[i];
+                calc(stateTax, margRate);
+                break; 
+            }    
         }
 
         function calc(stateTax, margRate) {
-            if (stateTax <= 0) {
-                stateTax = 0;
-            }
-
             effecRate = (stateTax / income * 100).toFixed(2);
             stateMarginalRate.innerHTML = `${(margRate * 100).toFixed(2)}%`;
             stateEffectiveRate.innerHTML = `${effecRate}%`;
@@ -100,12 +139,31 @@ function calcTaxes() {
     };
 
     function ficaTaxCalc() {
-        if (income > 200000) {
-            ficaRate = 0.0235;
-        } else if (income > 137701) {
-            ficaRate = 0.0145;
-        } else {
-            ficaRate = 0.0765;
+        let cap;
+
+        if (fileStatus === 'Single' || 'Head of Household') {
+            cap = 200000;
+            calc(cap);
+        }
+
+        if (fileStatus === 'Married File Jointly') {
+            cap = 250000;
+            calc(cap);
+        }
+
+        if (fileStatus === 'Married File Seperate') {
+            cap = 125000;
+            calc(cap);
+        }
+
+        function calc(cap) {
+            if (income > cap) {
+                ficaRate = 0.0235;
+            } else if (income > 137701) {
+                ficaRate = 0.0145;
+            } else {
+                ficaRate = 0.0765;
+            }
         }
 
         let ficaMargAndEffec = (ficaRate * 100).toFixed(2);
