@@ -63,12 +63,15 @@ function calcTaxes() {
         fedTaxCalc(fedDeduc, fedBracket, fedBracketBaseTax);
     }
 
-    ficaTaxCalc();
     totalTaxes();
 
     function fedTaxCalc(fedDeduc, fedBracket, fedBracketBaseTax) {
+        if (fedDeduc <= 0) {
+            fedDeduc = 0;
+        }
+
         for (let i = 0; i < fedBracket.length; i++) {
-            if (fedDeduc > fedBracket[i]) {
+            if (fedDeduc >= fedBracket[i]) {
                 margRate = fedBracketMarg[i];
                 taxable = fedDeduc - fedBracket[i];
                 fedTax = taxable * margRate + fedBracketBaseTax[i];
@@ -91,6 +94,7 @@ function calcTaxes() {
             stateDeduc = fedDeduc;
         }
 
+        ficaTaxCalc(fedDeduc);
         stateTaxCalc(stateDeduc);
     }
     
@@ -138,7 +142,7 @@ function calcTaxes() {
         }
     };
 
-    function ficaTaxCalc() {
+    function ficaTaxCalc(fedDeduc) {
         let cap;
 
         if (fileStatus === 'Single' || 'Head of Household') {
@@ -157,12 +161,14 @@ function calcTaxes() {
         }
 
         function calc(cap) {
-            if (income > cap) {
+            if (fedDeduc > cap) {
                 ficaRate = 0.0235;
-            } else if (income > 137701) {
+            } else if (fedDeduc > 137701) {
                 ficaRate = 0.0145;
-            } else {
+            } else if (fedDeduc > 0) {
                 ficaRate = 0.0765;
+            } else {
+                ficaRate = 0;
             }
         }
 
