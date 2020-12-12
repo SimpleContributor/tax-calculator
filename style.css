@@ -21,7 +21,7 @@ p {
   margin: 0;
 }
 
-p.how-to {
+.how-to {
   margin: 16px 0;
   width: 80%;
 }
@@ -32,11 +32,15 @@ p.how-to {
 }
 
 #income {
+  border: solid black 2px;
+  border-radius: 12px;
   font-size: 24px;
   height: 32px;
 }
 
-button {
+.calc-button {
+  border: solid black 2px;
+  border-radius: 12px;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   font-weight: 900;
   font-size: 16px;
@@ -45,7 +49,8 @@ button {
 }
 
 table {
-  height: 300px;
+  font-size: 20px;
+  height: 450px;
   text-align: left;
 }
 
@@ -56,6 +61,7 @@ table {
 /* Dropdown Menu Styling */
 /* The container must be positioned relative: */
 .dropdown-container {
+  
   font-size: 24px;
   margin: 24px 0;
   position: relative;
@@ -110,12 +116,12 @@ table {
   .select-selected {
     background-color: white;
     border: 2px solid black;
-    border-radius: 5px;
+    border-radius: 12px;
   }
   
   .hide-border-bottom{
     border-bottom: none;
-    border-radius: 5px 5px 0px 0px;
+    border-radius: 12px 12px 0px 0px;
   }
   
   /* Style items (options): */
@@ -124,7 +130,7 @@ table {
     background-color: white;
     border: 2px solid black;
     border-top: none;
-    border-radius: 0px 0px 5px 5px;
+    border-radius: 0px 0px 12px 12px;
     top: 100%;
     left: 0;
     right: 0;
@@ -151,6 +157,64 @@ table {
     }
     100% {
       transform: scaleY(1)
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    body {
+      margin: 48px 65px;
+    }
+
+    h1,
+    p {
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 48px;
+    }
+
+    .how-to {
+      font-size: 30px;
+      width: 100%;
+    }
+
+    .input-container {
+      margin-top: 48px;
+    }
+
+    .dollar-sign {
+      font-size: 48px;
+    }
+
+    #income {
+      font-size: 48px;
+      height: 80px;
+      padding-left: 16px;
+      width: 100%;
+    }
+
+    .dropdown-container {
+      font-size: 48px;
+      height: 80px;
+      margin: 48px 0 24px 0;
+      width: 100%;
+    }
+
+    .select-items {
+      top: 90%;
+    }
+
+    .calc-button {
+      font-size: 48px;
+      height: 100px;
+      margin: 24px 0;
+      width: 100%;
+    }
+
+    table {
+      font-size: 30px;
+      height: 800px;
     }
   }
   
