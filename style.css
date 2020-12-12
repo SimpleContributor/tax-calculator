@@ -160,7 +160,7 @@ table {
     }
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1050px) {
     body {
       margin: 48px 65px;
     }
